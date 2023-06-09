@@ -1,18 +1,26 @@
-version: "3.8"
+version: '3.7'
 services:
-  app:
-    container_name: 'Nest.js'
-    build:
-      context: .
-      dockerfile: Dockerfile
+  nest:
+    container_name: nest
+    build: .
     tty: true
-    stdin_open: true
-    environment:
-      NODE_ENV: development
-      WATCHPACK_POLLING: true
-    volumes:
-      - .:/app
-    networks:
-      - default
     ports:
-      - "13000:3000"
+      - '13000:3000'
+    volumes:
+      - type: bind
+        source: .
+        target: /api
+    depends_on: # 追加
+      - db
+
+  db:
+    image: postgres:15.3
+    container_name: my_postgres
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - ./data:/var/lib/postgresql/data
+      - ./init:/docker-entrypoint-initdb.d
