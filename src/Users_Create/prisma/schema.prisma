@@ -1,0 +1,149 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("postgresql://postgres:@V8AdcPvS@localhost:5432/equal")
+  }
+
+model User {
+  User_ID   Int     @id @default(autoincrement())
+  Face_img  String?
+  Name      String
+  Address   String
+  Birthday  DateTime
+  Mail      String
+  Pass      String
+  Age       Int
+  Job       String?
+  Hobby     String?
+  Intro     String?
+  SID       Int?
+}
+
+model Category {
+  Category_ID         Int      @id @default(autoincrement())
+  Category_Content    String
+}
+
+model Sex {
+  User_ID         Int      @id
+  Body_Sex        Int
+  Heart_Sex       Int
+  Like_Sex        Int
+}
+
+model settlement_type {
+  SID                  Int      @id @default(autoincrement())
+  S_Num                Int
+  S_Expiry             DateTime
+  S_Indentifecation    Int
+}
+
+model User_Product {
+  Buy_User_ID         Int      @id @default(autoincrement())
+  Product_ID          Int
+  User_ID             Int
+  Subscribe_Bool      Int
+  Purchase_Date       DateTime
+}
+
+model Community_User {
+  User_ID              Int      @id
+  User_Name            String
+  Icon                 String
+  Spesialist_Bool      Int
+}
+
+model Community {
+  Community_ID         Int      @id
+  Community_Name       String
+}
+
+model Tweet {
+  Tweet_ID             Int      @id
+  Community_ID         Int
+  Community_User_ID    Int
+  Tweet_Content        String
+  Reply_ID             Int
+  Tweet_Date           DateTime
+}
+
+model Good {
+  Good_ID              Int      @id
+  Community_User_ID    Int
+  Tweet_ID             Int
+}
+
+model Groups {
+  Group_ID             Int      @id
+  Community_ID         Int
+  Group_Name           String
+  Community_User_ID    Int
+  Group_Create_Date    DateTime
+  Limit_Num            Int
+}
+
+model Group_Member {
+  Group_Join_User_ID   Int      @id
+  Community_User_ID    Int
+  Group_ID             Int
+}
+
+model Group_Talk {
+  Group_Talk_ID        Int      @id
+  Community_User_ID    Int
+  Group_Talk_Content   String
+  Best_Answer_Bool     Int
+}
+
+model Group_Talk_List {
+  Group_Talk_List_ID   Int      @id
+  Group_Talk_ID        Int
+  Group_ID             Int
+}
+
+model Group_Category {
+  Group_ID             Int      @id
+  Category_ID          Int
+}
+
+model Matching {
+  Matching_ID          Int      @id @default(autoincrement())
+  Matching_User_ID     Int
+  Matching_opponent_User_ID Int
+  Matching_Bool        Int
+}
+
+model Talk {
+  Matching_Talk_ID     Int      @id @default(autoincrement())
+  Matching_ID          Int
+  Matching_Talk_Content String
+  User_ID              Int
+}
+
+model Matching_Category {
+  Matching_ID          Int      @id
+  Category_ID          Int
+}
+
+model Assessment {
+  User_ID                  Int      @id
+  Matching_id              Int
+  Matching_User_Assessment Int
+  Matching_opponent_User_Assessment Int
+}
+
+model Space {
+  Space_ID                  Int      @id
+  Community_User_ID         Int
+  Category_ID               Int
+  Spece_Reply_ID            Int
+  Title                     String
+  Space_Img                 String
+  Space_Date                DateTime
+}
